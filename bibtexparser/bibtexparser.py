@@ -32,6 +32,8 @@ def parse(bibtex: str) -> dict:
                 d.update({bibref: refdict})
             else:
                 spl = l.split('=')
+                if len(spl) < 2:
+                    continue
                 if spl[1][-1] == ',':
                     cont = spl[1][:-1]
                 else:
