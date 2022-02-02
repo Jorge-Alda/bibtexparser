@@ -17,7 +17,7 @@ def parse(bibtex: str) -> dict:
     d = dict()
     openRef = False
     lines = bibtex.split('\n')
-    for l in lines:
+    for i, l in enumerate(lines):
         if len(l) == 0:
             continue
         if not openRef:
@@ -25,6 +25,8 @@ def parse(bibtex: str) -> dict:
                 spl = l[1:].split('{')
                 refdict = {'bibclass': spl[0]}
                 bibref = spl[1].strip(',')
+                if bibref in d.keys():
+                    print(f'Repeated reference {bibref} in line {i}')
                 openRef = True
         else:
             if l == '}':
