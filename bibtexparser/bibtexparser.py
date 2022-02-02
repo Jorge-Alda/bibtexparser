@@ -2,6 +2,7 @@
 Parses BibTeX files, and finds missing fields
 '''
 
+from typing import Optional
 
 def parse(bibtex: str) -> dict:
     '''
@@ -37,3 +38,22 @@ def parse(bibtex: str) -> dict:
                     cont = spl[1]
                 refdict.update({spl[0].strip(): cont.strip()})
     return d
+
+
+def missingfield(dbib: dict, field: str, bibclass: Optional[str] = None) -> None:
+    '''
+        Looks for missing fields in the dictionary containing the bibliography.
+
+        Args:
+            dbib (dict): Dictionary created by :parse():.
+            field (str): Field to check if it is missing.
+            bibclass (str, optional): Class of BibTex entries to look, for example article. Defaults to None
+        '''
+
+    for key, ref in dbib.items():
+        check = True
+        if bibclass is not None:
+            check = (bibclass == ref['bibclass'])
+        if check:
+            if field not in ref.keys():
+                print(key, '\n')
